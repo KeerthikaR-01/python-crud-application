@@ -1,35 +1,38 @@
-from constants.ui import DEFAULT_LINE_COUNT, DEFAULT_LINE_CHARACTER
-
-def print_line(character = DEFAULT_LINE_CHARACTER, count = DEFAULT_LINE_COUNT):
-    for i in range(1, count + 1, 1):
-        print(character, end='')
-    print()
-
-def print_menu_title(title):
-    print_line()
-    print(title.center(DEFAULT_LINE_COUNT))
-    print_line()
-
-def print_menu_options(options):
-    for i, opt in enumerate(options, 1):
-        right = f"Press: {i}"
-        spaces = DEFAULT_LINE_COUNT - len(opt) - len(right)
-        spaces = max(spaces, 1)
-
-        print(f"{opt}{' ' * spaces}{right}")
-
-
-def print_menu(title, options):
-    print_menu_title(title)
-    print_menu_options(options)
-    print_line()
-
-def print_main_menu():
-    menu_title = 'User Management System'
-    menu_options = ['Create User', 'View Users', 'Update User', 'Delete User', 'Exit']
-    print_menu(menu_title, menu_options)
+from ui.main_menu import print_main_menu
+from utils.inputs import get_choice
+from utils.common import clear_console
+from utils.ui import print_menu_title
 
 def main():
-    print_main_menu()
+    while True:
+        print_main_menu()
 
-main()
+        choice = get_choice()
+
+        if choice == 1:
+            clear_console()
+            print_menu_title("Create User")
+            continue
+
+        elif choice == 2:
+            clear_console()
+            print("View Users")
+            continue
+
+        elif choice == 3:
+            print("Update User")
+            continue
+        
+        elif choice == 4:
+            print("Delete User")
+            continue
+
+        elif choice == 5:
+            print("Exiting...")
+            break
+
+        else:
+            print("Invalid choice. Please try again.")
+            break
+
+main()   
