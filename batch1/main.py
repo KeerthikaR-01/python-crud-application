@@ -3,8 +3,12 @@ from ui.main_menu import print_main_menu
 from utils.inputs import get_choice
 from utils.common import clear_console
 from utils.logger import log_info_message, log_error_message
+from repository.UserRepository import UserRepository
+from ui.print_users import print_users
 
 def main():
+
+    user_repository = UserRepository()
     while True:
         print_main_menu()
 
@@ -14,12 +18,22 @@ def main():
             clear_console()
 
             new_user = create_user()
-            log_info_message(f"User created Successfully: Name: {new_user.name}, Email: {new_user.email}, Password: {new_user.password}")
+            
+
+            user_id = len(user_repository.users) + 1
+            new_user.id = user_id
+
+            user_repository.add_user(new_user)
+
+            log_info_message(f"User created Successfully: ID: {new_user.id}, Name: {new_user.name}, Email: {new_user.email}, Password: {new_user.password}")
 
             continue
 
         elif choice == 2:
-            log_info_message("Read User")
+
+            users = user_repository.get_users()
+            print_users(users)
+
             continue
 
         elif choice == 3:
