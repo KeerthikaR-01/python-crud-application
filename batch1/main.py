@@ -5,6 +5,7 @@ from utils.common import clear_console
 from utils.logger import log_info_message, log_error_message
 from repository.UserRepository import UserRepository
 from ui.print_users import print_users
+from ui.search_user import search_user
 
 def main():
 
@@ -41,10 +42,21 @@ def main():
             continue
 
         elif choice == 4:
-            log_info_message("Delete User")
+            log_info_message('Delete User')
             continue
 
         elif choice == 5:
+            user_id = search_user()
+
+            users = user_repository.get_users_by_id(user_id)
+
+            if users:
+                print(f"User found: ID: {users.id}, Name: {users.name}, Email: {users.email}, Password: {users.password}")
+
+            else:
+                log_info_message("User not found")
+
+        elif choice == 6:
             log_info_message("Exit")
             break
 
