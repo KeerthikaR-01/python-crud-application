@@ -22,7 +22,10 @@ def main():
             clear_console()
 
             new_user = create_user()
-            
+
+            if user_repository.get_user_by_email(new_user.email):
+                log_error_message("Email already exists. Please try again.")
+                continue
 
             user_id = len(user_repository.users) + 1
             new_user.id = user_id
