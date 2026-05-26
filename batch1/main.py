@@ -8,10 +8,15 @@ from repository.UserRepository import UserRepository
 from ui.print_users import print_users
 from ui.search_user import search_user
 from ui.delete_user import delete_user
+from utils.user import read_users_from_file, save_users_to_file
 
 def main():
 
     user_repository = UserRepository()
+    users_from_file = read_users_from_file()
+
+    for user in users_from_file:
+        user_repository.add_user(user)
 
     while True:
         print_main_menu()
@@ -32,6 +37,8 @@ def main():
 
             user_repository.add_user(new_user)
 
+            save_users_to_file(user_repository.get_users())
+
             log_info_message(f"User created Successfully: ID: {new_user.id}, Name: {new_user.name}, Email: {new_user.email}, Password: {new_user.password}")
 
             continue
@@ -45,6 +52,9 @@ def main():
 
         elif choice == 3:
             updated_user = update_user(user_repository)
+
+            save_users_to_file(user_repository.get_users())
+
             if updated_user:
                 log_info_message(f"User updated successfully: ID: {updated_user.id}, Name: {updated_user.name}, Email: {updated_user.email}, Password: {updated_user.password}")
             continue
@@ -57,6 +67,7 @@ def main():
                 continue
 
             user_repository.delete_user(user_id)
+            save_users_to_file(user_repository.get_users())
             log_info_message("User deleted successfully")
 
         elif choice == 5:
